@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>人際冰山解密探針：透視衝突的隱藏渴望</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #e0f2fe; /* sky-100 */
+            color: #334155; /* slate-700 */
+            overflow: hidden; /* Prevent body scroll, handle inside app container */
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .slide-up { animation: slideUp 0.5s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 0.4s ease-out forwards; }
+        .pulse-glow { animation: pulseGlow 2s infinite; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: #f97316; /* orange-500 */
+            cursor: pointer;
+            margin-top: -12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 4px solid #fff;
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: linear-gradient(to right, #bae6fd, #0284c7); /* sky-200 to sky-600 */
+            border-radius: 4px;
+            border: 1px solid #7dd3fc;
+        }
+
+        /* Iceberg specific styles */
+        .iceberg-layer {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-[100dvh] w-screen p-0 sm:p-4">
+
+    <div id="app-container" class="w-full h-full max-w-lg sm:h-[90vh] sm:max-h-[850px] bg-sky-50 sm:rounded-3xl sm:shadow-2xl overflow-hidden flex flex-col relative border-x border-b sm:border border-sky-200">
+        
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-4 shrink-0 shadow-md z-10">
+            <h1 class="text-lg sm:text-xl font-black tracking-wide flex items-center justify-center gap-2">
+                <i class="fa-solid fa-satellite-dish"></i> 人際冰山解密探針
+            </h1>
+        </header>
+
+        <!-- Main Content Area (Scrollable) -->
+        <main class="flex-grow overflow-y-auto no-scrollbar relative">
+            
+            <!-- 階段 1：首頁與任務簡報 -->
+            <div id="screen-splash" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-sky-50 to-blue-100 fade-in z-20">
+                
+                <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-6 shadow-lg border-4 border-cyan-100 relative">
+                    <i class="fa-solid fa-magnifying-glass text-5xl text-cyan-500 absolute top-6 left-6"></i>
+                    <i class="fa-solid fa-icicles text-6xl text-blue-300"></i>
+                </div>
+                
+                <h2 class="text-2xl font-black text-slate-800 mb-2">透視衝突的隱藏渴望</h2>
+                <div class="bg-cyan-100 text-cyan-800 text-xs font-bold px-3 py-1 rounded-full mb-6 inline-block">
+                    八年級 綜合活動 人際事務所
+                </div>
+                
+                <p class="text-slate-600 mb-8 leading-relaxed text-sm sm:text-base">
+                    歡迎，<strong class="text-blue-600">人際心理偵探</strong>！<br>
+                    校園裡發生了三起人際衝突事件，當事人都被憤怒與霸道的外表所包圍。<br><br>
+                    你的任務是啟動「<span class="font-bold text-cyan-600">冰山探針</span>」，潛入水面下，找出他們心底真正的「<span class="font-bold text-orange-500">內在需求</span>」。
+                </p>
+                
+                <button onclick="app.startMission()" class="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-black text-lg rounded-2xl shadow-[0_6px_0_#c2410c] hover:shadow-[0_4px_0_#c2410c] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2 active:shadow-none active:translate-y-[6px]">
+                    <i class="fa-solid fa-power-off"></i> 啟動探針，開始解密
+                </button>
+            </div>
+
+            <!-- 階段 2：關卡畫面 -->
+            <div id="screen-level" class="hidden flex-col min-h-full bg-blue-50 pb-20 p-4 sm:p-6 fade-in">
+                
+                <!-- 進度與標題 -->
+                <div class="flex justify-between items-center mb-4">
+                    <span id="level-indicator" class="text-xs font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+                        <!-- Level 1 / 3 -->
+                    </span>
+                    <span id="score-indicator" class="text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full flex items-center gap-1 border border-orange-200">
+                        <i class="fa-solid fa-bolt"></i> 能量: <span id="score-text">0</span>%
+                    </span>
+                </div>
+                <h3 id="level-title" class="text-xl font-bold text-slate-800 mb-4 border-l-4 border-cyan-500 pl-3">
+                    <!-- 關卡標題 -->
+                </h3>
+
+                <!-- 情境卡片 -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 slide-in-right">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center shrink-0 border border-rose-200">
+                            <i class="fa-solid fa-user-ninja text-rose-500"></i>
+                        </div>
+                        <div>
+                            <span id="character-name" class="font-bold text-sm text-slate-500 mb-1 block"></span>
+                            <p id="scenario-text" class="text-slate-800 font-medium leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 冰山探針互動區 -->
+                <div class="mb-6 relative pt-2">
+                    <div class="text-center mb-3">
+                        <span class="text-sm font-bold text-cyan-700 bg-cyan-100 px-4 py-1 rounded-full"><i class="fa-solid fa-arrow-down-wide-short"></i> 滑動探針，深潛解密</span>
+                    </div>
+                    
+                    <!-- 冰山視覺堆疊 -->
+                    <div class="relative bg-gradient-to-b from-sky-100 via-sky-300 to-blue-600 rounded-3xl p-4 sm:p-5 shadow-inner border-2 border-sky-200 min-h-[320px] flex flex-col gap-3">
+                        
+                        <!-- 水面 (行為) -->
+                        <div id="layer-surface" class="glass-panel p-4 rounded-xl border-l-4 border-slate-400 relative z-30 transition-all duration-300">
+                            <span class="absolute -top-3 right-4 bg-slate-500 text-white text-[10px] px-2 py-0.5 rounded shadow">外在行為</span>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-mask text-slate-400 text-xl"></i>
+                                <span id="text-surface" class="font-bold text-slate-700"></span>
+                            </div>
+                        </div>
+
+                        <!-- 水面線 -->
+                        <div class="w-full border-t-2 border-dashed border-white/60 my-1 relative z-20">
+                            <span class="absolute -top-3 right-2 text-white/80 text-xs font-bold tracking-widest">WATERLINE</span>
+                        </div>
+
+                        <!-- 水中 (情緒) -->
+                        <div id="layer-emotion" class="glass-panel p-4 rounded-xl border-l-4 border-cyan-400 opacity-0 relative z-20 translate-y-4 iceberg-layer">
+                            <span class="absolute -top-3 right-4 bg-cyan-500 text-white text-[10px] px-2 py-0.5 rounded shadow">情緒感受</span>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-heart-crack text-cyan-500 text-xl"></i>
+                                <span id="text-emotion" class="font-bold text-cyan-900"></span>
+                            </div>
+                        </div>
+
+                        <!-- 冰山底 (需求) -->
+                        <div id="layer-need" class="bg-blue-900/80 backdrop-blur-md p-4 rounded-xl border-l-4 border-orange-400 opacity-0 relative z-10 translate-y-8 iceberg-layer shadow-lg mt-auto">
+                            <span class="absolute -top-3 right-4 bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded shadow pulse-glow">隱藏內在需求</span>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-gem text-orange-400 text-xl"></i>
+                                <span id="text-need" class="font-bold text-white text-lg drop-shadow-md"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 探針滑桿 -->
+                    <div class="mt-6 px-2 flex flex-col items-center">
+                        <input type="range" id="depth-slider" min="0" max="100" value="0" class="mb-2">
+                        <div class="w-full flex justify-between text-xs font-bold text-slate-400 px-2">
+                            <span>淺 (行為)</span>
+                            <span>深潛探測中...</span>
+                            <span>深 (需求)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 測驗區 (解鎖後顯示) -->
+                <div id="quiz-area" class="hidden slide-up bg-white p-5 rounded-2xl shadow border-2 border-cyan-300">
+                    <p id="quiz-question" class="font-bold text-slate-800 mb-4 leading-relaxed">
+                        <!-- 問題內容 -->
+                    </p>
+                    <div id="quiz-options" class="flex flex-col gap-3">
+                        <!-- 選項按鈕由 JS 產生 -->
+                    </div>
+                </div>
+
+                <!-- 回饋區 -->
+                <div id="feedback-area" class="hidden mt-4 slide-up">
+                    <div id="feedback-card" class="p-4 rounded-xl shadow-sm text-sm sm:text-base font-medium">
+                        <!-- 回饋內容 -->
+                    </div>
+                    <button id="btn-next" onclick="app.nextLevel()" class="w-full mt-4 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition-colors flex items-center justify-center gap-2">
+                        前往下個案發現場 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- 階段 3：總結報告與反思 -->
+            <div id="screen-result" class="hidden flex-col min-h-full bg-white p-6 fade-in pb-20">
+                <div class="text-center mb-6 pt-4">
+                    <div class="inline-block p-4 rounded-full bg-orange-100 text-orange-500 mb-4 shadow-inner">
+                        <i id="rank-icon" class="fa-solid fa-medal text-5xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 mb-1">任務完成！</h2>
+                    <p id="rank-title" class="text-lg font-bold text-cyan-600 mb-4">三星級人際心理偵探</p>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex justify-around items-center">
+                        <div class="text-center">
+                            <span class="block text-xs text-slate-500 font-bold">精準度</span>
+                            <span id="final-score" class="text-2xl font-black text-blue-700">100%</span>
+                        </div>
+                        <div class="w-px h-10 bg-blue-200"></div>
+                        <div class="text-center">
+                            <span class="block text-xs text-slate-500 font-bold">解密衝突</span>
+                            <span class="text-2xl font-black text-blue-700">3件</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie"></i> 國中生常見隱藏渴望 Top 3
+                    </h3>
+                    <div class="grid gap-3">
+                        <div class="bg-teal-50 p-3 rounded-xl border border-teal-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-teal-500 rounded-lg text-white flex items-center justify-center font-bold text-lg">1</div>
+                            <div>
+                                <h4 class="font-bold text-teal-900">需要安全感與陪伴</h4>
+                                <p class="text-xs text-teal-700">害怕失去朋友，導致外在表現霸道控制。</p>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-indigo-500 rounded-lg text-white flex items-center justify-center font-bold text-lg">2</div>
+                            <div>
+                                <h4 class="font-bold text-indigo-900">渴望被尊重原則</h4>
+                                <p class="text-xs text-indigo-700">不想被強迫，導致外在表現無奈或生氣。</p>
+                            </div>
+                        </div>
+                        <div class="bg-rose-50 p-3 rounded-xl border border-rose-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-rose-500 rounded-lg text-white flex items-center justify-center font-bold text-lg">3</div>
+                            <div>
+                                <h4 class="font-bold text-rose-900">需要公平與講理</h4>
+                                <p class="text-xs text-rose-700">覺得權益受損，導致外在表現挑釁或爭吵。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 border-2 border-orange-200 rounded-2xl p-5 mb-6">
+                    <h3 class="font-bold text-orange-800 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-comment-dots"></i> 偵探反思日誌
+                    </h3>
+                    <p class="text-sm text-orange-900 mb-4 leading-relaxed font-medium">
+                        知道對方生氣或霸道的背後，其實是「害怕」或「需要被尊重」後，這會如何改變你下次面對衝突時的說話方式？
+                    </p>
+                    <textarea class="w-full p-3 rounded-xl border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none bg-white text-sm" rows="3" placeholder="（請思考並在課堂上分享你的答案...）"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-auto">
+                    <button onclick="app.restart()" class="py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition-colors">
+                        <i class="fa-solid fa-rotate-left"></i> 重新挑戰
+                    </button>
+                    <button onclick="app.showModal()" class="py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl transition-colors shadow">
+                        <i class="fa-solid fa-download"></i> 導出報告
+                    </button>
+                </div>
+            </div>
+            
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-slate-200 p-2 text-center shrink-0 z-10 text-[10px] text-slate-400 font-medium">
+            臺灣國中綜合活動領域 ｜ 八年級 單元1 人際事務所 ｜ 課程輔助互動網頁
+        </footer>
+
+        <!-- 導出報告彈窗 (Modal) -->
+        <div id="export-modal" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+            <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+                <div class="bg-cyan-600 p-4 text-white text-center">
+                    <h3 class="font-black text-xl">人際冰山解密報告</h3>
+                    <p class="text-cyan-100 text-xs mt-1">請截圖保存此畫面作為任務證明</p>
+                </div>
+                <div class="p-6 text-center">
+                    <div class="text-5xl mb-4" id="modal-icon">🏆</div>
+                    <p class="text-sm text-slate-500 mb-1">完成者等級</p>
+                    <p class="text-xl font-bold text-slate-800 mb-6" id="modal-rank">三星級人際心理偵探</p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left mb-6">
+                        <p class="text-sm font-bold text-slate-700 mb-2 border-b pb-2">任務核心發現：</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            衝突往往只是冰山一角。穿透生氣與霸道的外在行為，能發現每個人底層都渴望被尊重、需要安全感與陪伴。<br>
+                            <strong>同理心，是化解人際危機的最強探針。</strong>
+                        </p>
+                    </div>
+                    
+                    <button onclick="app.hideModal()" class="w-full py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700">
+                        關閉視窗
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 關卡資料庫
+        const levelData = [
+            {
+                id: 1,
+                title: "關卡 1【教室現場：絕交威脅】",
+                character: "敏敏",
+                scenario: "「你在學校只能跟我一個人說話！如果你敢跑去跟小郁聊天，我就跟你絕交！」敏敏對著阿玫大喊。",
+                surface: "威脅、霸道、獨占欲",
+                emotion: "焦慮、害怕被孤立、不安",
+                need: "渴望安全感、害怕失去重要關係",
+                question: "透過冰山探針，你發現敏敏外表霸道的背後，其實最渴望的是什麼？",
+                options: [
+                    "藉由阿玫的力量去班上欺負小郁",
+                    "獲得安全感與專一的陪伴",
+                    "只是隨口開玩笑，展現自己老大風範"
+                ],
+                correct: 1, // Index 1
+                feedbackSuccess: "精準命中！敏敏是因為缺乏安全感，害怕失去朋友，才用錯誤的「威脅」方式來索求陪伴。看懂需求，我們就能用溫和堅定的方式回應她。",
+                feedbackFail: "探測偏移囉！敏敏並不是真的想欺負人或開玩笑，強硬的外表下通常隱藏著害怕失去關係的焦慮。"
+            },
+            {
+                id: 2,
+                title: "關卡 2【課堂角落：強迫借抄】",
+                character: "同學",
+                scenario: "「小郁，你功課好、人又大方，借我們普通人抄一下作業不會少幾塊肉啦！別那麼小氣！」幾位同學圍著小郁說。",
+                surface: "情緒勒索、隨便、強迫",
+                emotion: "僥倖、害怕被老師懲罰、無所謂",
+                need: "渴望輕鬆過關、缺乏為自己負責的勇氣",
+                question: "相比之下，被勒索的「小郁」此刻心底的內在需求是什麼？",
+                options: [
+                    "需要個人原則被尊重、渴望公平對待",
+                    "希望藉由借作業成為班上的風雲人物",
+                    "需要藉由不借作業來報復同學"
+                ],
+                correct: 0,
+                feedbackSuccess: "探測成功！小郁覺得不舒服，是因為她的「心血付出未獲公平對待」，且「個人界線未被尊重」。釐清需求後，小郁就能運用三明治說話法堅定拒絕。",
+                feedbackFail: "探測失誤！小郁感到不舒服不是為了報復或炫耀，而是她用心寫作業的原則與努力沒有被尊重。"
+            },
+            {
+                id: 3,
+                title: "關卡 3【籃球場邊：場地爭奪】",
+                character: "小駒",
+                scenario: "「籃球場又不是你家開的，你怎麼證明你先到？我就要現在打，不爽來單挑啊！」小駒把球用力砸在地上對小衣吼。",
+                surface: "挑釁、大聲謾罵、攻擊性",
+                emotion: "憤怒、覺得面子掛不住、衝動",
+                need: "需要被平等對待、需要規則與面子",
+                question: "面對小駒的挑釁行為，若要化解衝突，第一步應該怎麼做？",
+                options: [
+                    "馬上大聲罵回去，維護自己的地盤與面子",
+                    "立刻轉身跑去找老師告狀，讓老師懲罰他",
+                    "覺察情緒沸騰，先適度暫停，再看見彼此都需要公平"
+                ],
+                correct: 2,
+                feedbackSuccess: "完美解密！情緒高漲時溝通只會變成吵架。先暫停冷靜，穿透對方的謾罵，看見大家其實都只是想要公平使用場地，接著才能尋求共好方案。",
+                feedbackFail: "探測失敗。直接反擊會引發肢體衝突；直接告狀雖是方法，但未學到溝通。最佳做法是先暫停情緒，看見底層需要再溝通。"
+            }
+        ];
+
+        const app = {
+            currentLevelIndex: 0,
+            score: 0,
+            isSliderMaxed: false,
+
+            // DOM Elements
+            screens: {
+                splash: document.getElementById('screen-splash'),
+                level: document.getElementById('screen-level'),
+                result: document.getElementById('screen-result')
+            },
+            slider: document.getElementById('depth-slider'),
+            modal: document.getElementById('export-modal'),
+
+            init() {
+                this.setupSliderListener();
+            },
+
+            startMission() {
+                this.screens.splash.classList.add('hidden');
+                this.screens.level.classList.remove('hidden');
+                this.currentLevelIndex = 0;
+                this.score = 0;
+                this.loadLevel();
+            },
+
+            loadLevel() {
+                const data = levelData[this.currentLevelIndex];
+                this.isSliderMaxed = false;
+                
+                // Reset UI
+                this.slider.value = 0;
+                this.slider.disabled = false;
+                document.getElementById('layer-emotion').style.opacity = 0;
+                document.getElementById('layer-emotion').style.transform = 'translateY(16px)';
+                document.getElementById('layer-need').style.opacity = 0;
+                document.getElementById('layer-need').style.transform = 'translateY(32px)';
+                
+                document.getElementById('quiz-area').classList.add('hidden');
+                document.getElementById('feedback-area').classList.add('hidden');
+                
+                // Populate Data
+                document.getElementById('level-indicator').innerText = `關卡 ${data.id} / ${levelData.length}`;
+                document.getElementById('score-text').innerText = Math.round((this.score / levelData.length) * 100);
+                document.getElementById('level-title').innerText = data.title;
+                document.getElementById('character-name').innerText = `目標對象：${data.character}`;
+                document.getElementById('scenario-text').innerText = data.scenario;
+                
+                document.getElementById('text-surface').innerText = data.surface;
+                document.getElementById('text-emotion').innerText = data.emotion;
+                document.getElementById('text-need').innerText = data.need;
+                
+                document.getElementById('quiz-question').innerText = data.question;
+                
+                // Generate Options
+                const optionsContainer = document.getElementById('quiz-options');
+                optionsContainer.innerHTML = '';
+                data.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-700 font-medium transition-all shadow-sm';
+                    btn.innerHTML = `<span class="font-bold text-cyan-600 mr-2">${String.fromCharCode(65 + index)}.</span> ${opt}`;
+                    btn.onclick = () => this.checkAnswer(index, btn);
+                    optionsContainer.appendChild(btn);
+                });
+            },
+
+            setupSliderListener() {
+                this.slider.addEventListener('input', (e) => {
+                    const val = parseInt(e.target.value);
+                    
+                    // Emotion layer logic (appears between 20-60)
+                    let emOp = 0;
+                    let emY = 16;
+                    if (val > 20) {
+                        emOp = Math.min((val - 20) / 40, 1);
+                        emY = 16 - (16 * emOp);
+                    }
+                    const layerEm = document.getElementById('layer-emotion');
+                    layerEm.style.opacity = emOp;
+                    layerEm.style.transform = `translateY(${emY}px)`;
+
+                    // Need layer logic (appears between 60-100)
+                    let needOp = 0;
+                    let needY = 32;
+                    if (val > 60) {
+                        needOp = Math.min((val - 60) / 40, 1);
+                        needY = 32 - (32 * needOp);
+                    }
+                    const layerNeed = document.getElementById('layer-need');
+                    layerNeed.style.opacity = needOp;
+                    layerNeed.style.transform = `translateY(${needY}px)`;
+
+                    // Trigger Quiz Reveal at 100
+                    if (val >= 98 && !this.isSliderMaxed) {
+                        this.isSliderMaxed = true;
+                        setTimeout(() => {
+                            const quiz = document.getElementById('quiz-area');
+                            quiz.classList.remove('hidden');
+                            // Scroll down smoothly
+                            quiz.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }, 300);
+                    }
+                });
+            },
+
+            checkAnswer(selectedIndex, btnElement) {
+                // Disable all buttons and slider
+                const buttons = document.getElementById('quiz-options').querySelectorAll('button');
+                buttons.forEach(b => {
+                    b.disabled = true;
+                    b.classList.remove('hover:border-cyan-400', 'hover:bg-cyan-50', 'cursor-pointer');
+                    b.classList.add('opacity-50', 'cursor-not-allowed');
+                });
+                this.slider.disabled = true;
+
+                const data = levelData[this.currentLevelIndex];
+                const isCorrect = selectedIndex === data.correct;
+                
+                const feedbackCard = document.getElementById('feedback-card');
+                const feedbackArea = document.getElementById('feedback-area');
+
+                if (isCorrect) {
+                    this.score++;
+                    document.getElementById('score-text').innerText = Math.round((this.score / levelData.length) * 100);
+                    
+                    btnElement.classList.remove('border-slate-200', 'opacity-50');
+                    btnElement.classList.add('border-emerald-500', 'bg-emerald-50', 'ring-2', 'ring-emerald-200', 'opacity-100');
+                    
+                    feedbackCard.className = 'p-5 rounded-xl shadow-sm text-sm sm:text-base font-medium bg-emerald-50 border-2 border-emerald-200 text-emerald-800';
+                    feedbackCard.innerHTML = `<div class="font-bold text-lg mb-1"><i class="fa-solid fa-circle-check"></i> 探測精準！</div>${data.feedbackSuccess}`;
+                } else {
+                    btnElement.classList.remove('border-slate-200', 'opacity-50');
+                    btnElement.classList.add('border-rose-500', 'bg-rose-50', 'ring-2', 'ring-rose-200', 'opacity-100');
+                    
+                    // Highlight correct answer
+                    buttons[data.correct].classList.remove('border-slate-200', 'opacity-50');
+                    buttons[data.correct].classList.add('border-emerald-400', 'bg-emerald-50', 'opacity-100');
+
+                    feedbackCard.className = 'p-5 rounded-xl shadow-sm text-sm sm:text-base font-medium bg-rose-50 border-2 border-rose-200 text-rose-800';
+                    feedbackCard.innerHTML = `<div class="font-bold text-lg mb-1"><i class="fa-solid fa-triangle-exclamation"></i> 注意！</div>${data.feedbackFail}`;
+                }
+
+                feedbackArea.classList.remove('hidden');
+                
+                // Change button text if last level
+                if (this.currentLevelIndex === levelData.length - 1) {
+                    const nextBtn = document.getElementById('btn-next');
+                    nextBtn.innerHTML = '生成解密報告 <i class="fa-solid fa-flag-checkered"></i>';
+                    nextBtn.classList.replace('bg-blue-600', 'bg-orange-500');
+                    nextBtn.classList.replace('hover:bg-blue-700', 'hover:bg-orange-600');
+                }
+
+                setTimeout(() => {
+                    feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 100);
+            },
+
+            nextLevel() {
+                if (this.currentLevelIndex < levelData.length - 1) {
+                    this.currentLevelIndex++;
+                    // Remove classes to re-trigger animations
+                    this.screens.level.classList.remove('fade-in');
+                    void this.screens.level.offsetWidth; // trigger reflow
+                    this.screens.level.classList.add('fade-in');
+                    this.loadLevel();
+                    // Scroll to top
+                    this.screens.level.parentElement.scrollTop = 0;
+                } else {
+                    this.showResult();
+                }
+            },
+
+            showResult() {
+                this.screens.level.classList.add('hidden');
+                this.screens.result.classList.remove('hidden');
+                
+                const finalPercentage = Math.round((this.score / levelData.length) * 100);
+                document.getElementById('final-score').innerText = `${finalPercentage}%`;
+                
+                let rank = "見習探員";
+                let icon = "fa-star-half-stroke";
+                
+                if (finalPercentage === 100) {
+                    rank = "三星級 人際心理偵探";
+                    icon = "fa-crown";
+                } else if (finalPercentage > 50) {
+                    rank = "二星級 人際解密專家";
+                    icon = "fa-medal";
+                }
+
+                document.getElementById('rank-title').innerText = rank;
+                document.getElementById('rank-icon').className = `fa-solid ${icon} text-5xl`;
+                
+                // Update Modal content too
+                document.getElementById('modal-rank').innerText = rank;
+                document.getElementById('modal-icon').innerText = finalPercentage === 100 ? "👑" : (finalPercentage > 50 ? "🏅" : "🌱");
+            },
+
+            restart() {
+                this.screens.result.classList.add('hidden');
+                
+                // Reset button style for next level
+                const nextBtn = document.getElementById('btn-next');
+                nextBtn.innerHTML = '前往下個案發現場 <i class="fa-solid fa-arrow-right"></i>';
+                nextBtn.className = 'w-full mt-4 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition-colors flex items-center justify-center gap-2';
+                
+                this.startMission();
+            },
+
+            showModal() {
+                this.modal.classList.remove('hidden');
+                // Small delay for transition to work
+                setTimeout(() => {
+                    this.modal.classList.remove('opacity-0');
+                    document.getElementById('modal-content').classList.remove('scale-95');
+                }, 10);
+            },
+
+            hideModal() {
+                this.modal.classList.add('opacity-0');
+                document.getElementById('modal-content').classList.add('scale-95');
+                setTimeout(() => {
+                    this.modal.classList.add('hidden');
+                }, 300);
+            }
+        };
+
+        // Initialize App on load
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>
